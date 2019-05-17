@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>Pizzerias</title>
+	<link rel="stylesheet" href="leaflet/leaflet.css" />
+	<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="leaflet/markercluster/MarkerCluster.css" />
+	<link rel="stylesheet" href="leaflet/markercluster/MarkerCluster.Default.css" />
+	<script src="leaflet/leaflet.js"></script>
+	<script src="leaflet/markercluster/leaflet.markercluster.js"></script>
+
+	<script src="jquery-2.0.0.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<style type="text/css">
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		html, body, #map {
+			height: 100%;
+			font-family: 'Oswald';
+		}
+		.leaflet-container .leaflet-control-zoom {
+			margin-left: 13px;
+			margin-top: 70px;
+		}
+
+		#map { z-index: 1;}
+		#title { z-index: 2; position: absolute; left: 10px; }
+	</style>
+</head>
+<body>
+<h1 id="title">Pizzerias on OpenShift</h1>
+<div id="map"></div>
+<script>
+
+	center = new L.LatLng(47.039304, 14.505178);
+	zoom = 5;
+	var map = L.map('map').setView(center, zoom);
+	//var markerLayerGroup = L.layerGroup().addTo(map);
+	L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+	}).addTo(map);
+
+	var markers = L.markerClusterGroup();
+
+	function getPins(e){
+		bounds = map.getBounds();
+		url = "ws/pizzerias/within?lat1=" + bounds.getNorthEast().lat + "&lon1=" + bounds.getNorthEast().lng + "&lat2=" + bounds.getSouthWest().lat + "&lon2=" + bounds.getSouthWest().lng;
+		$.get(url, pinTheMap, "json")
+	}
+
+	Number.prototype.toCurrencyString = function() { return "$" + Math.floor(this).toLocaleString() + (this % 1).toFixed(2).toLocaleString().replace(/^0/,''); }
+
+	function pinTheMap(data){
+		//clear the current pins
+//			map.removeLayer(markerLayerGroup);
+		map.removeLayer(markers);
+		markers = L.markerClusterGroup();
+		//add the new pins
+		var markerArray = new Array(data.length);
+		for (var i = 0; i < data.length; i++){
+			pizzeria = data[i];
+			// console.log(data[i]);
+			var popupInformation = "<b>" + pizzeria.name + "</b></br>";
+			var marker = L.marker([pizzeria.latitude, pizzeria.longitude]);
+			marker.bindPopup(popupInformation);
+			markers.addLayer(marker);
+		}
+
+
+		//markerLayerGroup = L.layerGroup(markerArray).addTo(map);
+		map.addLayer(markers);
+
+
+	}
+	map.on('dragend', getPins);
+	map.on('zoomend', getPins);
+	map.whenReady(getPins)
+
+</script>
+</body>
+</html>
