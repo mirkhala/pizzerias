@@ -17,7 +17,7 @@ $ oc new-app pizzerias-wildfly
 `````
 If your environment (Online 3, Dedicated, OSE) has EAP, use this:
 `````
-$ oc create -f https://github.com/mirkhala/pizzerias.git/raw/master/pizzerias-template-eap.json
+$ oc create -f https://raw.githubusercontent.com/mirkhala/pizzerias/master/pizzerias-template-eap.json
 $ oc new-app pizzerias-eap
 ````
 ## Install template as cluster-admin for everyone to use
@@ -25,6 +25,6 @@ $ oc new-app pizzerias-eap
 Load the template with cluster-admin user:
 
 ````
-# oc create -f https://github.com/mirkhala/pizzerias.git/raw/master/pizzerias-template-wildfly.json -n openshift
+# oc create -f https://raw.githubusercontent.com/mirkhala/pizzerias/master/pizzerias-template-wildfly.json -n openshift
 ````
 
