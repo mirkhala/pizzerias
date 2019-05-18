@@ -1,6 +1,6 @@
 {
    "kind": "Template",
-   "apiVersion": "v1",
+   "apiVersion": "v2",
    "metadata": {
       "name": "pizzerias-wildfly",
       "annotations": {
@@ -145,7 +145,7 @@
       },
       {
          "kind": "ImageStream",
-         "apiVersion": "v1",
+         "apiVersion": "v2",
          "metadata": {
             "name": "${APPLICATION_NAME}"
          },
@@ -160,7 +160,7 @@
       },
       {
          "kind": "DeploymentConfig",
-         "apiVersion": "v1",
+         "apiVersion": "v2",
          "metadata": {
             "name": "${APPLICATION_NAME}-mongodb"
          },
@@ -268,7 +268,7 @@
       },
       {
          "kind": "DeploymentConfig",
-         "apiVersion": "v1",
+         "apiVersion": "v2",
          "metadata": {
             "name": "${APPLICATION_NAME}",
             "labels": {
@@ -360,7 +360,7 @@
       },
       {
          "kind": "Route",
-         "apiVersion": "v1",
+         "apiVersion": "v2",
          "metadata": {
             "name": "${APPLICATION_NAME}",
             "annotations": {
@@ -377,7 +377,7 @@
       },
       {
          "kind": "Service",
-         "apiVersion": "v1",
+         "apiVersion": "v2",
          "metadata": {
             "name": "mongodb"
          },
@@ -395,7 +395,7 @@
       },
       {
          "kind": "Service",
-         "apiVersion": "v1",
+         "apiVersion": "v2",
          "metadata": {
             "name": "${APPLICATION_NAME}",
             "annotations": {
