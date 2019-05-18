@@ -5,7 +5,7 @@
       "name": "pizzerias-wildfly",
       "annotations": {
          "iconClass": "icon-jboss",
-         "description": "Application template for MLB Parks application on WildFly & MongoDB built using STI"
+         "description": "Application template for MLB Pizzerias application on WildFly & MongoDB built using STI"
       }
    },
    "labels": {
